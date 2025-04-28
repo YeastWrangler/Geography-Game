@@ -30,6 +30,9 @@ def handle_guess(guess):
 while game_on:
     user_input = screen.textinput(title=f"{scoreboard.states_guessed}/{scoreboard.states_left} States Correct", prompt="Whats a states name?").title()
     if user_input == "Exit":
+        states_to_learn = [state for state in states_list if state not in states_guess]
+        ds = pandas.DataFrame(states_to_learn)
+        ds.to_csv("StatesToLearn.csv")
         break
     handle_guess(user_input)
     if scoreboard.states_guessed == 50:
@@ -37,9 +40,3 @@ while game_on:
         screen.textinput("You Won!!!!")
 
 
-for state in states_list:
-    if state not in states_guess:
-        answers.append(state)
-
-ds = pandas.DataFrame(answers)
-ds.to_csv("StatesToLearn.csv")
